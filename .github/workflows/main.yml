@@ -5,6 +5,12 @@ on:
     branches: [ main ]
   push:
     branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      deploy_env:
+        description: 'Target environment'
+        required: false
+        default: 'staging'
 
 env:
   JAVA_VERSION: '17'
