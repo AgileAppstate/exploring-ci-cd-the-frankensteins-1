@@ -26,6 +26,3 @@ jobs:
         run: javac helloWorld.java
 
       
-  test:
-    name: CI - Test
-    runs-on: ubuntu-latest
