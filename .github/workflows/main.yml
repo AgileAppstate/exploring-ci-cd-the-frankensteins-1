@@ -28,7 +28,22 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: ${{ env.JAVA_VERSION }}
-      - name: Complile
+      - name: Compile
         run: javac helloworld.java
+  
+  count:
+    name: CI - Count
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+      - name: Run - CountStuff
+        run: java CountStuff.java *.java
 
       
