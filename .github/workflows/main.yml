@@ -30,7 +30,26 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
       - name: Compile
         run: javac helloworld.java
-  
+
+  style:
+    name: CI - Style Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Install CheckStyle
+        run: wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.1/checkstyle-10.12.1-all.jar
+
+      - name: Run Checkstyle
+        run: java -jar checkstyle.jar -c check.xml helloworld.java
+
   count:
     name: CI - Count
     runs-on: ubuntu-latest
