@@ -47,11 +47,8 @@ jobs:
       - name: Install CheckStyle
         run: wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.1/checkstyle-10.12.1-all.jar
 
-      - name: Download Google Checks
-        run : wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
-
       - name: Run Checkstyle
-        run: java -jar checkstyle.jar -c google_checks.xml helloworld.java
+        run: java -jar checkstyle.jar -c check.xml helloworld.java
 
   count:
     name: CI - Count
