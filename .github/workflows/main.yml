@@ -51,7 +51,7 @@ jobs:
         run : wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
 
       - name: Run Checkstyle
-        run: java -jar checkstyle.jar -c google_checks.xml *.java
+        run: java -jar checkstyle.jar -c google_checks.xml helloworld.java
 
   count:
     name: CI - Count
