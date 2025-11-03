@@ -22,14 +22,15 @@ public class CountStuff{
                 String line = read.nextLine();
                 characters += line.length();
                 lines += 1;
-            }
 
-            while (read.hasNext()) {
-                String line = read.next();
-                wordCount += 1;
-            }
+                String[] words = line.trim().split("\\s+");
+                if (!line.trim().isEmpty()) {
+                    wordCount += words.length;
+                    }
+                }
 
             System.out.printf("%s, characters: %d, lines: %d, words: %d\n", fileName, characters, lines, wordCount);
+            read.close();
 
             i++;
             while (i < args.length)
@@ -42,17 +43,17 @@ public class CountStuff{
 
                 characters = 0;
                 lines = 0;
-
+                wordCount = 0;
                 
                 while (read.hasNextLine()) {
                     String line = read.nextLine();
                     characters += line.length();
                     lines += 1;
-                }
 
-                while (read.hasNext()) {
-                    String line = read.next();
-                    wordCount += 1;
+                    String[] words = line.trim().split("\\s+");
+                if (!line.trim().isEmpty()) {
+                    wordCount += words.length;
+                    }
                 }
 
                 System.out.printf("%s, characters: %d, lines: %d, words: %d\n", fileName, characters, lines, wordCount);
