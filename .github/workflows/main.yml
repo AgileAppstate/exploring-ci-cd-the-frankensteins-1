@@ -109,7 +109,7 @@ jobs:
       - name: Run lizard analysis and fail on threshold exceed
         env:
           CC_THRESHOLD: ${{ github.event.inputs.cc_threshold || '10' }}
-          SRC_DIR: ${{ github.event.inputs.src_dir || 'src' }}
+          SRC_DIR: ${{ github.event.inputs.src_dir || '.' }}
         run: |
           set -e
           export PATH="$HOME/.local/bin:$PATH"
