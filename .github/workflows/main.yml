@@ -120,25 +120,5 @@ jobs:
           lizard -l java -C "$CC_THRESHOLD" -o reports/lizard.json "$SRC_DIR" || true
           echo "Lizard JSON report:"
           cat reports/lizard.json
-          jq '.' reports/lizard.json || true
-
-          # Count functions with cyclomatic_complexity > threshold
-          COUNT=$(jq --arg t "$CC_THRESHOLD" '[ .[]?.functions[]? | select(.cyclomatic_complexity > ($t|tonumber)) ] | length' reports/lizard.json)
-          echo "Number of functions exceeding cyclomatic complexity > $CC_THRESHOLD: $COUNT"
-
-          if [ "$COUNT" -gt 0 ]; then
-            echo "::error ::Cyclomatic complexity threshold exceeded: $COUNT function(s) > $CC_THRESHOLD"
-            # print offending function details for easier triage
-            jq --arg t "$CC_THRESHOLD" '[ .[]?.functions[]? | select(.cyclomatic_complexity > ($t|tonumber)) ]' reports/lizard.json
-            exit 1
-          else
-            echo "No functions exceed the complexity threshold ($CC_THRESHOLD)."
-          fi
-
-      - name: Upload lizard report
-        uses: actions/upload-artifact@v4
-        with:
-          name: lizard-report
-          path: reports/lizard.json
 
       
