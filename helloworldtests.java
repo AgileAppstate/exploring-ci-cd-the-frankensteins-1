@@ -27,13 +27,8 @@ import org.junit.jupiter.api.BeforeEach;
 
     @Test
     public void testMainPrintsHelloWorld() {
-        // Call the main method
         helloworld.main(new String[] {});
-
-        // Capture printed output
         String output = baos.toString().trim();
-
-        // Verify it printed "Hello World"
         assertEquals("Hello World", output);
     }
 }
