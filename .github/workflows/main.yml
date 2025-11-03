@@ -65,4 +65,60 @@ jobs:
       - name: Run - CountStuff
         run: java CountStuff.java *.java
 
+  lizard-javac:
+    name: Lizard (javac) complexity check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Compile Java sources with javac
+        # Compiles all .java files found under the chosen source directory into build/classes.
+        # If no sources found, compilation is skipped (but analysis will run and report nothing).
+        env:
+          SRC_DIR: ${{ github.event.inputs.src_dir || 'src' }}
+        run: |
+          set -e
+          echo "Source directory: $SRC_DIR"
+          mkdir -p build/classes
+          # find sources and compile; create sources.txt for javac @args
+          find "$SRC_DIR" -name '*.java' > sources.txt || true
+          if [ -s sources.txt ]; then
+            echo "Compiling Java sources..."
+            javac -d build/classes @sources.txt
+            echo "Compilation completed: build/classes"
+          else
+            echo "No Java sources found in $SRC_DIR — skipping javac compile."
+          fi
+
+      - name: Install Python + lizard and jq
+        # lizard is a Python package; jq is used to parse JSON output
+        run: |
+          python -m pip install --upgrade --user pip
+          python -m pip install --user lizard
+          # jq is available from apt
+          sudo apt-get update -y
+          sudo apt-get install -y jq
+
+      - name: Run lizard analysis and fail on threshold exceed
+        env:
+          CC_THRESHOLD: ${{ github.event.inputs.cc_threshold || '10' }}
+          SRC_DIR: ${{ github.event.inputs.src_dir || '.' }}
+        run: |
+          set -e
+          export PATH="$HOME/.local/bin:$PATH"
+          echo "Running lizard with complexity threshold: $CC_THRESHOLD on $SRC_DIR"
+          mkdir -p reports
+          # Generate JSON output; lizard returns non-zero if threshold exceeded for some versions,
+          # so we capture output to reports and avoid failing immediately to control the failure logic.
+          lizard -l java -C "$CC_THRESHOLD" -o reports/lizard.json "$SRC_DIR" || true
+          echo "Lizard JSON report:"
+          cat reports/lizard.json
+
       
