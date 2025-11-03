@@ -119,6 +119,7 @@ jobs:
           # so we capture output to reports and avoid failing immediately to control the failure logic.
           lizard -l java -C "$CC_THRESHOLD" -o reports/lizard.json "$SRC_DIR" || true
           echo "Lizard JSON report:"
+          ls
           jq '.' reports/lizard.json || true
 
           # Count functions with cyclomatic_complexity > threshold
