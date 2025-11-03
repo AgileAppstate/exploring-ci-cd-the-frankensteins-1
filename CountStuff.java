@@ -15,6 +15,7 @@ public class CountStuff{
 
             int characters = 0;
             int lines = 0;
+            int wordCount = 0;
 
             
             while (read.hasNextLine()) {
@@ -23,7 +24,12 @@ public class CountStuff{
                 lines += 1;
             }
 
-            System.out.printf("%s, characters: %d, lines: %d\n", fileName, characters, lines);
+            while (read.hasNext()) {
+                String line = read.next();
+                wordCount += 1;
+            }
+
+            System.out.printf("%s, characters: %d, lines: %d, words: %d\n", fileName, characters, lines, wordCount);
 
             i++;
             while (i < args.length)
@@ -44,7 +50,12 @@ public class CountStuff{
                     lines += 1;
                 }
 
-                System.out.printf("%s, characters: %d, lines: %d\n", fileName, characters, lines);
+                while (read.hasNext()) {
+                    String line = read.next();
+                    wordCount += 1;
+                }
+
+                System.out.printf("%s, characters: %d, lines: %d, words: %d\n", fileName, characters, lines, wordCount);
                 
                 i++;
             }
